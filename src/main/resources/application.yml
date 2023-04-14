@@ -1,0 +1,96 @@
+#
+##MYSQL
+#
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/marin?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: root
+#    password: root
+
+server:
+  port: 9090
+
+spring:
+  application:
+    name: spring-boot-test-study
+
+  mvc:
+    contentnegotiation:
+      favor-parameter: true
+      media-types:
+        xls: application/vnd.ms-excel
+    log-request-details: true
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        show-sql: true
+        order_inserts: true
+        order_updates: true
+        jdbc:
+          batch_size: 500
+          fetch_size: 500
+          batch_versioned_data: true
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:playground;MODE=MYSQL;
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  flyway:
+    url: jdbc:h2:mem:playground
+    user: sa
+    password:
+    baseline-on-migrate: true
+
+  devtools:
+    add-properties: true
+    restart:
+      enabled: true
+
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+    resolve-schema-properties: true
+  group-configs:
+    - group: BOARD
+      display-name: 게시물 관리
+      paths-to-match: /v1/board/**
+    - group: SANDBOX
+      display-name: 샘플 관리
+      paths-to-match: /v1/sandbox/**
+    - group: ACTUATOR
+      display-name: Spring Actuator
+      paths-to-match:
+        - /actuator
+        - /actuator/**
+  swagger-ui:
+    enabled: true
+    version: v1
+    groups-order: desc
+    try-it-out-enabled: true
+    display-request-duration: true
+    disable-swagger-default-url: true
+  show-actuator: true
+  default-produces-media-type: application/json
+
+logging:
+  config: classpath:logback.xml
+  level:
+    web: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction: DEBUG
+    io.swagger.models.parameters.AbstractSerializableParameter: error
